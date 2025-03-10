@@ -1,5 +1,4 @@
-#ifndef POSITION_H
-#define POSITION_H
+#pragma once
 
 #include <stdio.h>
 
@@ -48,4 +47,3 @@ void print_position(const struct position *pos, FILE *stream);
 /* https://www.chessprogramming.org/Forsyth-Edwards_Notation                 */
 int parse_position(struct position *pos, const char *fen);
 
-#endif

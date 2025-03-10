@@ -1,7 +1,7 @@
-#include "uci.h"
-#include "search.h"
-#include "move.h"
-#include "types.h"
+#include "uci.hpp"
+#include "search.hpp"
+#include "move.hpp"
+#include "types.hpp"
 
 #include <stdlib.h>
 #include <string.h>
@@ -10,7 +10,7 @@
 static char *get_line(FILE *stream) {
 	size_t capacity = 1024;
 	size_t size = 0;
-	char *string = malloc(capacity);
+	char *string = (char *) malloc(capacity);
 
 	while (fgets(string + size, capacity - size, stream)) {
 		size += strlen(string + size);
@@ -20,7 +20,7 @@ static char *get_line(FILE *stream) {
 		}
 
 		capacity *= 2;
-		string = realloc(string, capacity);
+		string = (char *) realloc(string, capacity);
 	}
 
 	free(string);

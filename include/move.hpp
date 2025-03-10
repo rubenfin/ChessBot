@@ -1,7 +1,6 @@
-#ifndef MOVE_H
-#define MOVE_H
+#pragma once
 
-#include "position.h"
+#include "position.hpp"
 
 /* this struct represents a chess move.                                      */
 /*                                                                           */
@@ -69,4 +68,3 @@ void do_move(struct position *pos, struct move move);
 /* https://www.chessprogramming.org/Legal_Move                               */
 int is_legal(const struct position *pos, struct move move);
 
-#endif

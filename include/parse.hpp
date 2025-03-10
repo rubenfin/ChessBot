@@ -1,5 +1,4 @@
-#ifndef PARSE_H
-#define PARSE_H
+#pragma once
 
 /* parse a file. valid files are 'a', 'b', 'c', 'd', 'e', 'f', 'g', and 'h'. */
 /* returns the file on success, `NO_FILE` on failure.                        */
@@ -28,4 +27,3 @@ int parse_type(char c);
 /* failure.                                                                  */
 int parse_piece(char c);
 
-#endif

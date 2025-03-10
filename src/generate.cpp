@@ -1,5 +1,5 @@
-#include "generate.h"
-#include "types.h"
+#include "generate.hpp"
+#include "types.hpp"
 
 /* add the file and rank offset to the square. returns `NO_SQUARE` if the    */
 /* resulting square is off the board.                                        */

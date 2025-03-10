@@ -1,8 +1,7 @@
-#ifndef GENERATE_H
-#define GENERATE_H
+#pragma once
 
-#include "move.h"
-#include "position.h"
+#include "move.hpp"
+#include "position.hpp"
 
 #include <stddef.h>
 
@@ -42,4 +41,3 @@ size_t generate_pseudo_legal_moves(const struct position *pos, struct move *move
 /* https://www.chessprogramming.org/Double_Check                             */
 size_t generate_legal_moves(const struct position *pos, struct move *moves);
 
-#endif

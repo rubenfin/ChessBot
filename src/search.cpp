@@ -1,6 +1,6 @@
-#include "search.h"
-#include "evaluate.h"
-#include "generate.h"
+#include "search.hpp"
+#include "evaluate.hpp"
+#include "generate.hpp"
 
 #include <limits.h>
 

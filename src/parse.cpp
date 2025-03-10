@@ -1,5 +1,5 @@
-#include "parse.h"
-#include "types.h"
+#include "parse.hpp"
+#include "types.hpp"
 
 int parse_file(char c) {
 	switch (c) {

@@ -1,5 +1,4 @@
-#ifndef UCI_H
-#define UCI_H
+#pragma once
 
 /* Universal Chess Interface is a protocol that chess GUIs use to talk to    */
 /* chess engines. this function is called from `main` and handles            */
@@ -11,4 +10,3 @@
 /* https://www.chessprogramming.org/UCI                                      */
 void uci_run(const char *name, const char *author);
 
-#endif

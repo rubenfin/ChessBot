@@ -1,8 +1,7 @@
-#ifndef SEARCH_H
-#define SEARCH_H
+#pragma once
 
-#include "position.h"
-#include "move.h"
+#include "position.hpp"
+#include "move.hpp"
 
 /* information passed to the search function.                                */
 struct search_info {
@@ -144,4 +143,3 @@ struct search_result minimax(const struct position *pos, int depth);
 /* https://www.chessprogramming.org/Opening_Book                             */
 struct move search(const struct search_info *info);
 
-#endif

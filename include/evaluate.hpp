@@ -1,7 +1,6 @@
-#ifndef EVALUATE_H
-#define EVALUATE_H
+#pragma once
 
-#include "position.h"
+#include "position.hpp"
 
 /* the evaluation function tries to determine the value of the current       */
 /* position for the current player. the greater the value, the better the    */
@@ -41,4 +40,3 @@
 /* https://www.chessprogramming.org/Mobility                                 */
 int evaluate(const struct position *pos);
 
-#endif

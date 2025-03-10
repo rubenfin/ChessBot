@@ -1,5 +1,4 @@
-#ifndef PERFT_H
-#define PERFT_H
+#pragma once
 
 /* PERFormance Testing is a way to test the performance and correctness of   */
 /* the move generator. it works by counting the number of positions that can */
@@ -11,4 +10,3 @@
 /* https://www.chessprogramming.org/Perft                                    */
 void perft_run(void);
 
-#endif

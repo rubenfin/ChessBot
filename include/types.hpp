@@ -1,5 +1,4 @@
-#ifndef TYPES_H
-#define TYPES_H
+#pragma once
 
 #define SUCCESS 0
 #define FAILURE -1
@@ -63,4 +62,3 @@
 /* returns the rank from the perspective of the given color.                 */
 #define RELATIVE(rank, color) ((color) == WHITE ? (rank) : 7 - (rank))
 
-#endif

@@ -1,5 +1,5 @@
-#include "evaluate.h"
-#include "types.h"
+#include "evaluate.hpp"
+#include "types.hpp"
 
 static const int piece_value[6] = { 100, 300, 300, 500, 900, 1000000 };
 

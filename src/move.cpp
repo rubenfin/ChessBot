@@ -1,7 +1,7 @@
-#include "move.h"
-#include "generate.h"
-#include "parse.h"
-#include "types.h"
+#include "move.hpp"
+#include "generate.hpp"
+#include "parse.hpp"
+#include "types.hpp"
 
 struct move make_move(int from_square, int to_square, int promotion_type) {
 	struct move move;
