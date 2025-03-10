@@ -29,7 +29,7 @@ struct position {
 	int board[64];
 
 	/* color of the current side to move, must be `WHITE` or `BLACK`.        */
-	int side_to_move;
+	int8_t side_to_move;
 
 	/* castling rights indexed by piece color.                               */
 	int castling_rights[2];
