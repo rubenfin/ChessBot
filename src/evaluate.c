@@ -2,6 +2,7 @@
 #include "pst.h"
 #include "evaluate.h"
 #include "types.h"
+#include "logger.h"
 // #include "../include/pst.h"
 // #include "../include/evaluate.h"
 // #include "../include/types.h"
@@ -12,6 +13,7 @@ static const int piece_value[6] = { 100, 300, 300, 500, 900, 1000000 };
 // - Implement for black by 64 - square
 // - Scaling the values
 // - Phase value for knowing which phase of game
+// - Make better test and debug environment
 
 int getSquarePostitionValue(const struct position *pos, int square)
 {
@@ -55,8 +57,6 @@ int evaluate(const struct position *pos) {
 			score[COLOR(piece)] += piece_value[TYPE(piece)] + getSquarePostitionValue(pos, square);
 			// score[COLOR(piece)] += piece_value[TYPE(piece)];
 		}
-	}
-
 	return score[pos->side_to_move] - score[1 - pos->side_to_move];
 }
 
