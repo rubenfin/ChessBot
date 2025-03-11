@@ -43,7 +43,6 @@
 
 /* returns the square with the given file and rank.                          */
 #define SQUARE(file, rank) ((rank) * 8 + (file))
-
 /* returns the file of the given square.                                     */
 #define FILE(square) ((square) % 8)
 

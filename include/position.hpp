@@ -29,13 +29,13 @@ struct position {
 	int board[64];
 
 	/* color of the current side to move, must be `WHITE` or `BLACK`.        */
-	int side_to_move;
+	int8_t side_to_move;
 
 	/* castling rights indexed by piece color.                               */
-	int castling_rights[2];
+	int8_t castling_rights[2];
 
 	/* en passant square, may be `NO_SQUARE`.                                */
-	int en_passant_square;
+	int8_t en_passant_square;
 };
 
 /* print out information about the position. useful for debugging.           */
