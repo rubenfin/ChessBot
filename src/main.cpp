@@ -1,5 +1,6 @@
 #include "perft.hpp"
 #include "uci.hpp"
+#include "logger.hpp"
 
 #include <stdlib.h>
 

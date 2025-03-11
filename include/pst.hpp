@@ -1,7 +1,7 @@
 #ifndef PST_H
 #define PST_H
 
-#include "types.h"
+#include "types.hpp"
 
 int pawn_table[64] = {
       0,   0,   0,   0,   0,   0,   0,   0,

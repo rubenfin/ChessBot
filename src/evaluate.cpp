@@ -1,8 +1,8 @@
 
-#include "pst.h"
-#include "evaluate.h"
-#include "types.h"
-#include "logger.h"
+#include "pst.hpp"
+#include "evaluate.hpp"
+#include "types.hpp"
+#include "logger.hpp"
 // #include "../include/pst.h"
 // #include "../include/evaluate.h"
 // #include "../include/types.h"
@@ -18,7 +18,7 @@ static const int piece_value[6] = { 100, 300, 300, 500, 900, 1000000 };
 int getSquarePostitionValue(const struct position *pos, int square)
 {
 	int piece = pos->board[square];
-	int color = COLOR(piece);
+	// int color = COLOR(piece);
 	int type = TYPE(piece);
 	int value = 0;
 	switch (type)
@@ -58,6 +58,7 @@ int evaluate(const struct position *pos) {
 			// score[COLOR(piece)] += piece_value[TYPE(piece)];
 		}
 	return score[pos->side_to_move] - score[1 - pos->side_to_move];
+}
 }
 
 // int main() {
