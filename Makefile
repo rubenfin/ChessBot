@@ -4,7 +4,7 @@ CFLAGS	:= -Wall -Wextra -pedantic -std=c++11
 
 CC		:= c++
 
-HEADERS := include/uci.hpp include/perft.hpp include/search.hpp include/evaluate.hpp include/generate.hpp include/move.hpp include/position.hpp include/parse.hpp include/types.hpp include/logger.hpp
+HEADERS := include/uci.hpp include/perft.hpp include/search.hpp include/evaluate.hpp include/generate.hpp include/move.hpp include/position.hpp include/parse.hpp include/types.hpp include/logger.hpp include/BoardHistory.hpp
 
 build/%.o: src/%.cpp $(HEADERS) Makefile
 	mkdir -p $(@D)

@@ -1,11 +1,12 @@
 
-#include "pst.hpp"
-#include "evaluate.hpp"
-#include "types.hpp"
-#include "logger.hpp"
-// #include "../include/pst.h"
-// #include "../include/evaluate.h"
-// #include "../include/types.h"
+// #include "pst.hpp"
+// #include "evaluate.hpp"
+// #include "types.hpp"
+// #include "logger.hpp"
+#include "../include/pst.hpp"
+#include "../include/evaluate.hpp"
+#include "../include/types.hpp"
+#include "../include/logger.hpp"
 
 static const int piece_value[6] = { 100, 300, 300, 500, 900, 1000000 };
 
@@ -18,29 +19,37 @@ static const int piece_value[6] = { 100, 300, 300, 500, 900, 1000000 };
 int getSquarePostitionValue(const struct position *pos, int square)
 {
 	int piece = pos->board[square];
-	// int color = COLOR(piece);
+	int color = COLOR(piece);
+	int sign = 1;
+	// printf("COLOR: %d\n", color);
 	int type = TYPE(piece);
 	int value = 0;
+	if (color == BLACK)
+	{
+		square = 63 - square;
+		sign = -1;
+	}
 	switch (type)
 	{
 		case PAWN:
-			value = pawn_table[square];
+			// printf("PAWN square: %d\n", square);
+			value = pawn_table[square] * sign;
 			break;
 		case KNIGHT:
-			value = knight_table[square];
+			value = knight_table[square] * sign;
 			break;
 		case BISHOP:
-			value = bishop_table[square];
+			value = bishop_table[square] * sign;
 			break;
 		case ROOK:
-			value = rook_table[square];
+			value = rook_table[square] * sign;
 			break;
 		case QUEEN:
-			value = queen_table[square];
+			value = queen_table[square] * sign;
 			break;
-		case KING:
-			value = king_table[square];
-			break;
+		// case KING:
+		// 	value = king_table[square] * sign;
+		// 	break;
 	}
 
 	return value;
@@ -57,8 +66,10 @@ int evaluate(const struct position *pos) {
 			score[COLOR(piece)] += piece_value[TYPE(piece)] + getSquarePostitionValue(pos, square);
 			// score[COLOR(piece)] += piece_value[TYPE(piece)];
 		}
-	return score[pos->side_to_move] - score[1 - pos->side_to_move];
 }
+	// printf("%d | %d \n", score[WHITE], score[BLACK]);
+	// return score[WHITE] - score[BLACK];
+	return score[pos->side_to_move] - score[1 - pos->side_to_move];
 }
 
 // int main() {
@@ -80,7 +91,7 @@ int evaluate(const struct position *pos) {
 // 		struct position test_position_black = {
 // 		.board = {
 // 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
+// 			1, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
 // 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
 // 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
 // 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,

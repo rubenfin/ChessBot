@@ -2,6 +2,7 @@
 #include "search.hpp"
 #include "move.hpp"
 #include "types.hpp"
+#include "BoardHistory.hpp"
 
 #include <stdlib.h>
 #include <string.h>
@@ -123,8 +124,10 @@ static void uci_go(const struct position *pos, char *token, char *store) {
 			break;
 		}
 	}
-
+	boardHistory->printTest();
+	boardHistory->addBoard(pos->board);
 	move = search(&info);
+	// do_move(info.pos, move);
 
 	buffer[0] = "abcdefgh"[FILE(move.from_square)];
 	buffer[1] = '1' + RANK(move.from_square);
