@@ -6,7 +6,6 @@
 
 class Zobrist {
 private:
-    std::unordered_map<uint64_t, int> BoardHistory;
     std::array<std::array<uint64_t, 12>, 64> pieceKeys;
     std::mt19937_64 rng;
 
@@ -15,6 +14,7 @@ private:
     }
 
 public:
+    std::unordered_map<uint64_t, int> BoardHistory;
     Zobrist();
     uint64_t computeHash(const int board[64]) const;
 };

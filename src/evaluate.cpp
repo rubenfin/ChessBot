@@ -7,6 +7,7 @@
 #include "../include/evaluate.hpp"
 #include "../include/types.hpp"
 #include "../include/logger.hpp"
+#include "../include/Zobrist.hpp"
 
 static const int piece_value[6] = { 100, 300, 300, 500, 900, 1000000 };
 
@@ -70,6 +71,26 @@ int evaluate(const struct position *pos) {
 	// printf("%d | %d \n", score[WHITE], score[BLACK]);
 	// return score[WHITE] - score[BLACK];
 	return score[pos->side_to_move] - score[1 - pos->side_to_move];
+}
+
+int get_score(const struct position *pos) {
+	int result;
+
+	result = evaluate(pos);
+	 uint64_t hash = zobrist->computeHash(pos->board);
+
+    if (zobrist->BoardHistory[hash] >= 2)
+    {
+		std::cout << "small strike" << std::endl;
+		result += 1000000;
+	}
+    // if (zobrist->BoardHistory[hash] >= 1)
+    // {
+	// 	log_write("3 strikes\n");
+	// 	result -= 1000000;
+	// }
+	log_write("%d", result);
+	return result;
 }
 
 // int main() {

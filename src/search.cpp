@@ -1,17 +1,25 @@
 #include "search.hpp"
 #include "evaluate.hpp"
 #include "generate.hpp"
+#include "Zobrist.hpp"
+#include "logger.hpp"
 
 #include <limits.h>
 
 struct search_result minimax(const struct position *pos, int depth) {
 	struct search_result result;
+	uint64_t hash = zobrist->computeHash(pos->board);
+
+    zobrist->BoardHistory[hash]++;
+
 
 	result.score = -1000000;
 
 	if (depth == 0) {
 		/* we have reached our search depth, so evaluate the position.       */
-		result.score = evaluate(pos);
+		result.score = get_score(pos);
+
+
 	} else {
 		struct move moves[MAX_MOVES];
 		size_t count = generate_legal_moves(pos, moves);
@@ -36,6 +44,9 @@ struct search_result minimax(const struct position *pos, int depth) {
 			}
 		}
 	}
+	zobrist->BoardHistory[hash]--;
+	// std::cout << "Undo Hash: " << hash << " | Count: " << zobrist->BoardHistory[hash] << std::endl;
+	// log_write("Hash: %llu | Count: %d\n", hash, zobrist->BoardHistory[hash]);
 
 	return result;
 }
