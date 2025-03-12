@@ -2,10 +2,12 @@
 #include "search.hpp"
 #include "move.hpp"
 #include "types.hpp"
+#include "OpeningBook.hpp"
 
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <iostream>
 
 static char *get_line(FILE *stream) {
 	size_t capacity = 1024;
@@ -85,10 +87,9 @@ static void uci_position(struct position *pos, char *token, char *store) {
 	}
 }
 
-static void uci_go(const struct position *pos, char *token, char *store) {
+static void uci_go(const struct position *pos, char *token, char *store, OpeningBook& OpeningBook) {
 	struct search_info info;
-	struct move move;
-	char buffer[] = { '\0', '\0', '\0', '\0', '\0', '\0' };
+	struct move move_struct;
 
 	info.pos = pos;
 	info.time[WHITE] = 0;
@@ -124,29 +125,68 @@ static void uci_go(const struct position *pos, char *token, char *store) {
 		}
 	}
 
-	move = search(&info);
-
-	buffer[0] = "abcdefgh"[FILE(move.from_square)];
-	buffer[1] = '1' + RANK(move.from_square);
-	buffer[2] = "abcdefgh"[FILE(move.to_square)];
-	buffer[3] = '1' + RANK(move.to_square);
-
-	if (move.promotion_type != NO_TYPE) {
-		buffer[4] = "pnbrqk"[move.promotion_type];
-	}
-
-	printf("bestmove %s\n", buffer);
+	std::string move;
+	
+	move = OpeningBook.getNextMove(*pos);
+	std::cout << "Selected move from book: \"" << move << "\"" << std::endl;
+		// if (!move.empty())
+			// std::cout << "Selected move from book: \"" << move << "\"" << std::endl;
+	
+	if (move.empty()) {
+		// std::cout << "Using engine search (no book move available)" << std::endl;
+		move_struct = search(&info);
+	
+		move +="abcdefgh"[FILE(move_struct.from_square)];
+		move += '1' + RANK(move_struct.from_square);
+		move += "abcdefgh"[FILE(move_struct.to_square)];
+		move += '1' + RANK(move_struct.to_square);
+	
+		if (move_struct.promotion_type != NO_TYPE) {
+			move += "pnbrqk"[move_struct.promotion_type];
+		}
+	} 
+	std::cout << "bestmove " << move << std::endl;
 }
+
+// std::string grabLatestMove(char *readline) {
+// 	std::string line(readline);
+// 	if (line.find("moves") == std::string::npos)
+// 	{
+// 		return "";
+// 	}
+
+// 	std::string latestMove;
+
+// 	size_t lastSpace = line.find_last_of(' ');
+// 	if (lastSpace != std::string::npos) {
+// 		latestMove = line.substr(lastSpace + 1);
+		
+// 		size_t start = latestMove.find_first_not_of(" \t\n\r");
+// 		size_t end = latestMove.find_last_not_of(" \t\n\r");
+		
+// 		if (start != std::string::npos && end != std::string::npos) {
+// 			latestMove = latestMove.substr(start, end - start + 1);
+// 		} else if (start != std::string::npos) {
+// 			latestMove = latestMove.substr(start);
+// 		} else if (end != std::string::npos) {
+// 			latestMove = latestMove.substr(0, end + 1);
+// 		} else {
+// 			latestMove = "";
+// 		}
+// 	}
+// 	return latestMove;
+// }
 
 void uci_run(const char *name, const char *author) {
 	char *line;
 	int quit = 0;
 	struct position pos;
+	OpeningBook OpeningBook("openingbooks/opening.txt");
 
 	while (!quit && (line = get_line(stdin))) {
 		char *token = line;
 		char store = *token;
-
+		// static std::string lastMove;
 		*token = '\0';
 
 		while ((token = get_token(token, &store))) {
@@ -160,8 +200,9 @@ void uci_run(const char *name, const char *author) {
 				printf("readyok\n");
 			} else if (!strcmp(token, "position")) {
 				uci_position(&pos, token, &store);
+				// lastMove = grabLatestMove(line);
 			} else if (!strcmp(token, "go")) {
-				uci_go(&pos, token, &store);
+				uci_go(&pos, token, &store, OpeningBook);
 			} else if (!strcmp(token, "setoption")) {
 				break;
 			} else if (!strcmp(token, "register")) {
