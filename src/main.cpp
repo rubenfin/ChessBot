@@ -2,13 +2,14 @@
 #include "uci.hpp"
 #include "logger.hpp"
 #include "BoardHistory.cpp"
+#include "Zobrist.hpp"
 
 #include <stdlib.h>
 
 #define PERFT 0
 
 int main(void) {
-	BoardHistory boardHistory;
+	Zobrist zobrist;
 	log_init("log.txt");
 	log_write("Hello, world!\n");
 #if PERFT

@@ -4,13 +4,13 @@ CFLAGS	:= -Wall -Wextra -pedantic -std=c++11
 
 CC		:= c++
 
-HEADERS := include/uci.hpp include/perft.hpp include/search.hpp include/evaluate.hpp include/generate.hpp include/move.hpp include/position.hpp include/parse.hpp include/types.hpp include/logger.hpp include/BoardHistory.hpp
+HEADERS := include/uci.hpp include/perft.hpp include/search.hpp include/evaluate.hpp include/generate.hpp include/move.hpp include/position.hpp include/parse.hpp include/types.hpp include/logger.hpp include/Zobrist.hpp
 
 build/%.o: src/%.cpp $(HEADERS) Makefile
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) $< -o $@ -c -Iinclude
 
-$(NAME): build/uci.o build/perft.o build/search.o build/evaluate.o build/generate.o build/move.o build/position.o build/parse.o build/main.o build/logger.o
+$(NAME): build/uci.o build/perft.o build/search.o build/evaluate.o build/generate.o build/move.o build/position.o build/parse.o build/main.o build/logger.o build/Zobrist.o
 	$(CC) $(CFLAGS) $^ -o $@
 
 clean:

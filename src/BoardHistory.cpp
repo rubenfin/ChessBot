@@ -1,4 +1,6 @@
-#include "BoardHistory.hpp"
+#include "../include/BoardHistory.hpp"
+
+// #include "BoardHistory.hpp"
 
 BoardHistory::BoardHistory() : index(0), count(0) {
 
@@ -22,18 +24,21 @@ void BoardHistory::addBoard(const int board[64]) {
 }
 
 void BoardHistory::printTest() const {
-std::cout << "hallo het werkt" << std::endl;
+    std::cout << "hallo het werkt" << std::endl;
 }
-// void BoardHistory::printAllBoards() const {
-//     for (int i = 0; i < count; i++) {
-//         for (int j = 0; j < 63; j++) {
-//             std::cout << history[i][j] << " ";
-//             if ((j + 1) % 8 == 0) {
-//                 std::cout << std::endl;
-//             }
-//         }
-//         std::cout << std::endl;
-//     }
-// }
 
-BoardHistory *boardHistory = nullptr;
+void BoardHistory::printAllBoards() const {
+    std::cout << "--------- new move --------" << std::endl;
+    for (int i = 0; i < count; i++) {
+        for (int j = 0; j < 64; j++) {
+            std::cout << std::setw(3) << history[i][j] << " ";
+            if ((j + 1) % 8 == 0) {
+                std::cout << std::endl;
+            }
+        }
+        std::cout << "--------- board" << i << "--------" << std::endl;
+    }
+
+}
+
+BoardHistory *boardHistory = new BoardHistory();
