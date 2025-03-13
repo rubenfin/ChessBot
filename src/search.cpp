@@ -8,7 +8,7 @@
 
 struct search_result minimax(const struct position *pos, int depth) {
 	struct search_result result;
-	uint64_t hash = zobrist->computeHash(pos->board);
+	uint64_t hash = zobrist->computeHash(pos);
 
     zobrist->BoardHistory[hash]++;
 
@@ -44,9 +44,10 @@ struct search_result minimax(const struct position *pos, int depth) {
 			}
 		}
 	}
-	zobrist->BoardHistory[hash]--;
+	// if (zobrist->BoardHistory[hash] > 1)
+	// 	log_write("Hash: %llu | Count: %d\n", hash, zobrist->BoardHistory[hash]);
+	// zobrist->BoardHistory[hash]--;
 	// std::cout << "Undo Hash: " << hash << " | Count: " << zobrist->BoardHistory[hash] << std::endl;
-	// log_write("Hash: %llu | Count: %d\n", hash, zobrist->BoardHistory[hash]);
 
 	return result;
 }

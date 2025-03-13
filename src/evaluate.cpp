@@ -75,21 +75,22 @@ int evaluate(const struct position *pos) {
 
 int get_score(const struct position *pos) {
 	int result;
+	uint64_t hash = zobrist->computeHash(pos);
 
 	result = evaluate(pos);
-	 uint64_t hash = zobrist->computeHash(pos->board);
 
     if (zobrist->BoardHistory[hash] >= 2)
     {
 		std::cout << "small strike" << std::endl;
-		result += 1000000;
+		result -= 100;
 	}
-    // if (zobrist->BoardHistory[hash] >= 1)
-    // {
-	// 	log_write("3 strikes\n");
-	// 	result -= 1000000;
-	// }
-	log_write("%d", result);
+    if (zobrist->BoardHistory[hash] >= 3)
+    {
+		std::cout << "big strike " << std::endl;
+		// exit(0);
+		result -= 1000000;
+	}
+
 	return result;
 }
 

@@ -1,18 +1,42 @@
-// #include "../include/Zobrist.hpp"
+#include "../include/Zobrist.hpp"
+#include "../include/position.hpp"
+#include "../include/types.hpp"
 
-// int main() {
-//     Zobrist zobrist;
+int main() {
+    Zobrist zobrist;
+        struct position *pos = new struct position;
+        for (int i = 0; i < 64; ++i) {
+            std::cout << i << std::endl;
+            pos->board[i] = NO_PIECE;
+        }
 
-//     // Example board: -1 means empty, 0-11 are piece types (pawns, knights, etc.)
-//     int board[64] = { -1 }; // Empty board for simplicity
-//     board[0] = 0;  // White rook
-//     board[7] = 0;  // Another white rook
-//     board[60] = 6; // White king
-//     board[4] = 12; // Black king
+        for (int i = 8; i < 16; ++i) {
+            pos->board[i] = PAWN;
+        }
+        for (int i = 48; i < 56; ++i) {
+            pos->board[i] = PAWN;
+        }
+
+        pos->side_to_move = WHITE;
+        pos->castling_rights[0] = 1; // White can castle
+        pos->castling_rights[1] = 1; // Black can castle
+        pos->en_passant_square = NO_SQUARE;
 
 
-//     uint64_t hash = zobrist.computeHash(board);
-//     std::cout << "Zobrist Hash: " << hash << std::endl;
+    uint64_t hash = zobrist.computeHash(pos);
+        // uint64_t hash = zobrist.computeHash(pos);
+        zobrist.BoardHistory[hash]++;
+    zobrist.BoardHistory[hash]++;
+    zobrist.BoardHistory[hash]++;
 
-//     return 0;
-// }
+    if (zobrist.BoardHistory[hash] >= 3) {
+        std::cout << "✅ Threefold repetition detected!" << std::endl;
+    } else {
+        std::cerr << "❌ Threefold repetition NOT detected!" << std::endl;
+    }
+
+
+    std::cout << "Zobrist Hash: " << hash << std::endl;
+
+    return 0;
+}
