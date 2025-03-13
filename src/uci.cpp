@@ -127,7 +127,7 @@ static void uci_go(const struct position *pos, char *token, char *store) {
 	move = search(&info);
 	do_move((position *)info.pos, move);
 	uint64_t result = zobrist->computeHash(info.pos);
-	std::cout << result << std::endl;
+	// std::cout << result << std::endl;
 	buffer[0] = "abcdefgh"[FILE(move.from_square)];
 	buffer[1] = '1' + RANK(move.from_square);
 	buffer[2] = "abcdefgh"[FILE(move.to_square)];
