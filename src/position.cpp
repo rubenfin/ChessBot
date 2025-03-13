@@ -66,6 +66,11 @@ int parse_position(struct position *pos, const char *fen) {
 	int square;
 	int index;
 
+	pos->side_to_move = NO_COLOR;
+	pos->castling_rights[WHITE] = 0;
+	pos->castling_rights[BLACK] = 0;
+	pos->en_passant_square = NO_SQUARE;
+
 	/* initialize an empty board.                                            */
 	for (square = 0; square < 64; square++) {
 		pos->board[square] = NO_PIECE;

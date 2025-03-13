@@ -41,6 +41,8 @@
 #define KING_SIDE 1
 #define QUEEN_SIDE 2
 
+#define FIRST_MOVE "e2e4"
+
 /* returns the square with the given file and rank.                          */
 #define SQUARE(file, rank) ((rank) * 8 + (file))
 /* returns the file of the given square.                                     */
