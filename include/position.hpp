@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdio.h>
+#include <cstdint>
 
 /* this struct represents the placement of pieces on a chess board, as well  */
 /* as any additional information such as side to move, castling rights, and  */
