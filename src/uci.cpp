@@ -128,12 +128,8 @@ static void uci_go(const struct position *pos, char *token, char *store, Opening
 	std::string move;
 	
 	move = OpeningBook.getNextMove(*pos);
-	std::cout << "Selected move from book: \"" << move << "\"" << std::endl;
-		// if (!move.empty())
-			// std::cout << "Selected move from book: \"" << move << "\"" << std::endl;
 	
 	if (move.empty()) {
-		// std::cout << "Using engine search (no book move available)" << std::endl;
 		move_struct = search(&info);
 	
 		move +="abcdefgh"[FILE(move_struct.from_square)];
@@ -147,35 +143,6 @@ static void uci_go(const struct position *pos, char *token, char *store, Opening
 	} 
 	std::cout << "bestmove " << move << std::endl;
 }
-
-// std::string grabLatestMove(char *readline) {
-// 	std::string line(readline);
-// 	if (line.find("moves") == std::string::npos)
-// 	{
-// 		return "";
-// 	}
-
-// 	std::string latestMove;
-
-// 	size_t lastSpace = line.find_last_of(' ');
-// 	if (lastSpace != std::string::npos) {
-// 		latestMove = line.substr(lastSpace + 1);
-		
-// 		size_t start = latestMove.find_first_not_of(" \t\n\r");
-// 		size_t end = latestMove.find_last_not_of(" \t\n\r");
-		
-// 		if (start != std::string::npos && end != std::string::npos) {
-// 			latestMove = latestMove.substr(start, end - start + 1);
-// 		} else if (start != std::string::npos) {
-// 			latestMove = latestMove.substr(start);
-// 		} else if (end != std::string::npos) {
-// 			latestMove = latestMove.substr(0, end + 1);
-// 		} else {
-// 			latestMove = "";
-// 		}
-// 	}
-// 	return latestMove;
-// }
 
 void uci_run(const char *name, const char *author) {
 	char *line;
@@ -200,7 +167,6 @@ void uci_run(const char *name, const char *author) {
 				printf("readyok\n");
 			} else if (!strcmp(token, "position")) {
 				uci_position(&pos, token, &store);
-				// lastMove = grabLatestMove(line);
 			} else if (!strcmp(token, "go")) {
 				uci_go(&pos, token, &store, OpeningBook);
 			} else if (!strcmp(token, "setoption")) {

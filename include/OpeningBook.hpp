@@ -11,8 +11,6 @@
 #include "types.hpp"
 #include "parse.hpp"
 
-class BookNode;
-
 class OpeningBook {
     private:
         std::unordered_map<uint64_t, std::string> _book;

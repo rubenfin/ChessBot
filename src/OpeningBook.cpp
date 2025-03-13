@@ -71,9 +71,6 @@ uint64_t computeZobristHash(const struct position &pos) {
 }
 
 OpeningBook::OpeningBook(const std::string& path) {
-
-    std::cout << "Opening Book constructed" << std::endl;
-    
     std::ifstream file(path);
     if (!file.is_open()) {
         std::cout << "Failed to open file: " << path << std::endl;
@@ -103,9 +100,9 @@ OpeningBook::OpeningBook(const std::string& path) {
         for (size_t i = 0; i < moves.size(); i++) {
             struct move move;
 
-			if (parse_move(&move, moves[i].c_str()) == SUCCESS) {
-                do_move(&pos_copy, move);
-			}
+			parse_move(&move, moves[i].c_str());
+			do_move(&pos_copy, move);
+
             uint64_t hash = computeZobristHash(pos_copy);
             if (_book.find(hash) == _book.end()) {
                 if (i != moves.size() - 1) {
@@ -114,7 +111,6 @@ OpeningBook::OpeningBook(const std::string& path) {
             }
         }
     }
-    std::cout << "Book size: " << _book.size() << std::endl;
     file.close();
 
     // std::string line;
@@ -191,15 +187,10 @@ OpeningBook::~OpeningBook() {
 
 std::string OpeningBook::getNextMove(const struct position& pos) {
     uint64_t hash = computeZobristHash(pos);
-    static int counter;
-    std::cout << "Hash in getNextMove: " << hash << std::endl;
     if (_book.find(hash) == _book.end())
     {
-        std::cout << "No move found" << std::endl;
         return "";
     }
-    std::cout << "my counter " << ++counter << std::endl; 
-    
     return _book[hash];
 }
 
