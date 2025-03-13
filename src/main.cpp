@@ -11,7 +11,6 @@
 int main(void) {
 	Zobrist zobrist;
 	log_init("log.txt");
-	log_write("Hello, world!\n");
 #if PERFT
 	perft_run();
 #else

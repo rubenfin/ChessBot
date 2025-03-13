@@ -41,4 +41,4 @@
 
 // int evaluate(const struct position *pos);
 int evaluate(const struct position *pos);
-int get_score(const struct position *pos);
+int get_score(const struct position *pos, int phase);

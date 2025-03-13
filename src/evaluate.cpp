@@ -17,14 +17,15 @@ static const int piece_value[6] = {100, 300, 300, 500, 900, 1000000};
 //  - Phase value for knowing which phase of game
 //  - Make better test and debug environment
 
-int getSquarePostitionValue(const struct position *pos, int square)
+int getSquarePostitionValue(const struct position *pos, int square, int phase)
 {
 	int piece = pos->board[square];
 	int color = COLOR(piece);
 	int sign = 1;
 	// printf("COLOR: %d\n", color);
 	int type = TYPE(piece);
-	int value = 0;
+	int mid_value = 0;
+	int end_value = 0;
 	if (color == BLACK)
 	{
 		square = 63 - square;
@@ -33,30 +34,35 @@ int getSquarePostitionValue(const struct position *pos, int square)
 	switch (type)
 	{
 	case PAWN:
-		// printf("PAWN square: %d\n", square);
-		value = pawn_table[square] * sign;
+		mid_value = midgame_pawn[square];
+		end_value = endgame_pawn[square];
 		break;
 	case KNIGHT:
-		value = knight_table[square] * sign;
+		mid_value = midgame_knight[square];
+		end_value = endgame_knight[square];
 		break;
 	case BISHOP:
-		value = bishop_table[square] * sign;
+		mid_value = midgame_bishop[square];
+		end_value = endgame_bishop[square];
 		break;
 	case ROOK:
-		value = rook_table[square] * sign;
+		mid_value = midgame_rook[square];
+		end_value = endgame_rook[square];
 		break;
 	case QUEEN:
-		value = queen_table[square] * sign;
+		mid_value = midgame_queen[square];
+		end_value = endgame_queen[square];
 		break;
-		// case KING:
-		// 	value = king_table[square] * sign;
-		// 	break;
+	case KING:
+		mid_value = midgame_king[square];
+		end_value = endgame_king[square];
+		break;
 	}
 
-	return value;
+	return ((mid_value * phase) + (end_value * (256 - phase))) / 256;;
 }
 
-int evaluate(const struct position *pos)
+int evaluate(const struct position *pos, int phase)
 {
 	int score[2] = {0, 0};
 	int square;
@@ -67,7 +73,7 @@ int evaluate(const struct position *pos)
 
 		if (piece != NO_PIECE)
 		{
-			score[COLOR(piece)] += piece_value[TYPE(piece)] + getSquarePostitionValue(pos, square);
+			score[COLOR(piece)] += piece_value[TYPE(piece)] + getSquarePostitionValue(pos, square, phase);
 			// score[COLOR(piece)] += piece_value[TYPE(piece)];
 		}
 	}
@@ -76,22 +82,20 @@ int evaluate(const struct position *pos)
 	return score[pos->side_to_move] - score[1 - pos->side_to_move];
 }
 
-int get_score(const struct position *pos)
+int get_score(const struct position *pos, int phase)
 {
 	int result;
 	uint64_t hash = zobrist->computeHash(pos);
 
-	result = evaluate(pos);
+	result = evaluate(pos, phase);
 
 	if (zobrist->BoardHistory[hash] >= 3)
 	{
-		// log_write("Big strike - Threefold repetition detected!");
-		result -= 1000;
+		result -= 500;
 	}
 	else if (zobrist->BoardHistory[hash] == 2)
 	{
-		// log_write("Small strike - Position repeated twice.");
-		result -= 10;
+		result -= 100;
 	}
 
 	return result;
