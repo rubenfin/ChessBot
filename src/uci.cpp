@@ -128,7 +128,7 @@ static void uci_go(const struct position *pos, char *token, char *store, Opening
 	std::string move;
 	
 	move = OpeningBook.getNextMove(*pos);
-	std::cout << "Selected move from book: \"" << move << "\"" << std::endl;
+	// std::cout << "Selected move from book: \"" << move << "\"" << std::endl;
 		// if (!move.empty())
 			// std::cout << "Selected move from book: \"" << move << "\"" << std::endl;
 	
