@@ -28,36 +28,37 @@ int getSquarePostitionValue(const struct position *pos, int square, int phase)
 	int end_value = 0;
 	if (color == BLACK)
 	{
-		square = 63 - square;
-		sign = -1;
+		square = square ^ 56;
+		sign = 1;
 	}
-	switch (type)
-	{
-	case PAWN:
-		mid_value = midgame_pawn[square];
-		end_value = endgame_pawn[square];
-		break;
-	case KNIGHT:
-		mid_value = midgame_knight[square];
-		end_value = endgame_knight[square];
-		break;
-	case BISHOP:
-		mid_value = midgame_bishop[square];
-		end_value = endgame_bishop[square];
-		break;
-	case ROOK:
-		mid_value = midgame_rook[square];
-		end_value = endgame_rook[square];
-		break;
-	case QUEEN:
-		mid_value = midgame_queen[square];
-		end_value = endgame_queen[square];
-		break;
-	case KING:
-		mid_value = midgame_king[square];
-		end_value = endgame_king[square];
+		switch (type)
+		{
+		case PAWN:
+			mid_value = midgame_pawn[square] * sign;
+			end_value = endgame_pawn[square] * sign;
+			break;
+		case KNIGHT:
+			mid_value = midgame_knight[square] * sign;
+			end_value = endgame_knight[square] * sign;
+			break;
+		case BISHOP:
+			mid_value = midgame_bishop[square] * sign;
+			end_value = endgame_bishop[square] * sign;
+			break;
+		case ROOK:
+			mid_value = midgame_rook[square] * sign;
+			end_value = endgame_rook[square] * sign;
+			break;
+		case QUEEN:
+			mid_value = midgame_queen[square] * sign;
+			end_value = endgame_queen[square] * sign;
+			break;
+		case KING:
+			mid_value = midgame_king[square] * sign;
+			end_value = endgame_king[square] * sign;
 		break;
 	}
+	// std::cout << "Squear -->" << square << std::endl;
 
 	return ((mid_value * phase) + (end_value * (256 - phase))) / 256;;
 }
@@ -74,19 +75,40 @@ int evaluate(const struct position *pos, int phase)
 		if (piece != NO_PIECE)
 		{
 			score[COLOR(piece)] += piece_value[TYPE(piece)] + getSquarePostitionValue(pos, square, phase);
-			// score[COLOR(piece)] += piece_value[TYPE(piece)];
 		}
 	}
-	// printf("%d | %d \n", score[WHITE], score[BLACK]);
-	// return score[WHITE] - score[BLACK];
 	return score[pos->side_to_move] - score[1 - pos->side_to_move];
 }
 
-int get_score(const struct position *pos, int phase)
+int countPieces(const int board[64])
+{
+	int total = 0;
+
+	for (int i = 0; i < 64; i++)
+	{
+		if (board[i] == KNIGHT)
+			total += 1;
+		else if (board[i] == BISHOP)
+			total += 1;
+		else if (board[i] == ROOK)
+			total += 2;
+		else if (board[i] == QUEEN)
+			total += 4;
+	}
+	return(total);
+}
+
+int getPhase(const int board[64])
+{
+	int total = countPieces(board);
+	return ((total * 256) / 24);
+}
+
+int get_score(const struct position *pos)
 {
 	int result;
 	uint64_t hash = zobrist->computeHash(pos);
-
+	int phase = getPhase(pos->board);
 	result = evaluate(pos, phase);
 
 	if (zobrist->BoardHistory[hash] >= 3)
@@ -104,37 +126,39 @@ int get_score(const struct position *pos, int phase)
 // int main() {
 // 	struct position test_position_white = {
 // 		.board = {
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			PAWN, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE
+// 			  6 ,  2 ,  4 ,  8 , 10 ,  4 ,  2 ,  6 ,
+//   0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
+//  -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,
+//  -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,
+//  -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,
+//  -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,
+//   1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,
+//   7 ,  3 ,  5 ,  9 , 11 ,  5 ,  3 ,  7 ,
 // 		},
 // 		.side_to_move = WHITE,
 // 		.castling_rights = { 0, 0 },
 // 		.en_passant_square = NO_SQUARE
 // 	};
+
 // 		struct position test_position_black = {
 // 		.board = {
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			1, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE,
-// 			NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE, NO_PIECE
+//   6 ,  2 ,  4 ,  8 , 10 ,  4 ,  2 ,  6 ,
+//   0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,
+//  -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,
+//  -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,
+//  -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,
+//  -1 , -1 , -1 , -1 , -1 , -1 , -1 , 1 ,
+//   1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  -1 ,
+//   7 ,  3 ,  5 ,  9 , 11 ,  5 ,  3 ,  7 ,
 // 		},
 // 		.side_to_move = BLACK,
 // 		.castling_rights = { 0, 0 },
 // 		.en_passant_square = NO_SQUARE
 // 	};
 
-// 	int score_white = evaluate(&test_position_white);
-// 	int score_black = evaluate(&test_position_black);
+// 	int score_white = get_score(&test_position_white);
+// 	std::cout << "-------------------" << std::endl;
+// 	int score_black = get_score(&test_position_black);
 
 // 	printf("Evaluation score: %d\n", score_white);
 // 	printf("Evaluation score: %d\n", score_black);
