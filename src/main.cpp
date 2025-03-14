@@ -10,11 +10,10 @@
 
 int main(void) {
 	Zobrist zobrist;
-	log_init("log.txt");
 #if PERFT
 	perft_run();
 #else
-	uci_run("example engine", "csteenvo");
+	uci_run("Boys Burger", "rfinneru, mmoser jade-haa");
 #endif
 
 	return EXIT_SUCCESS;

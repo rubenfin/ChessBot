@@ -21,7 +21,6 @@ int getSquarePostitionValue(const struct position *pos, int square, int phase)
 {
 	int piece = pos->board[square];
 	int color = COLOR(piece);
-	// printf("COLOR: %d\n", color);
 	int type = TYPE(piece);
 	int mid_value = 0;
 	int end_value = 0;
@@ -56,8 +55,6 @@ int getSquarePostitionValue(const struct position *pos, int square, int phase)
 			end_value = endgame_king[square];
 		break;
 	}
-	// std::cout << "Squear -->" << square << std::endl;
-
 	return ((mid_value * phase) + (end_value * (256 - phase))) / 256;;
 }
 
@@ -84,16 +81,25 @@ int countPieces(const int board[64])
 
 	for (int i = 0; i < 64; i++)
 	{
-		if (board[i] == KNIGHT)
+		switch (board[i])
+		{
+		case KNIGHT:
 			total += 1;
-		else if (board[i] == BISHOP)
+			break;
+		case BISHOP:
 			total += 1;
-		else if (board[i] == ROOK)
+			break;
+		case ROOK:
 			total += 2;
-		else if (board[i] == QUEEN)
+			break;
+		case QUEEN:
 			total += 4;
+			break;
+		default:
+			break;
+		}
 	}
-	return(total);
+	return total;
 }
 
 int getPhase(const int board[64])
