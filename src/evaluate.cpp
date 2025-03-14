@@ -102,10 +102,11 @@ int countPieces(const int board[64])
 	return total;
 }
 
-int getPhase(const int board[64])
-{
-	int total = countPieces(board);
-	return ((total * 256) / 24);
+int getPhase(const int board[64]) { // aggressive bot
+    int total = countPieces(board);
+    double normalized = (double)total / 24.0;
+    double phase = std::pow(normalized, 0.75) * 256;
+    return (int)phase;
 }
 
 int get_score(const struct position *pos)
