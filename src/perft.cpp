@@ -1,7 +1,7 @@
-#include "perft.hpp"
-#include "generate.hpp"
-#include "position.hpp"
-#include "types.hpp"
+#include "../include/perft.hpp"
+#include "../include/generate.hpp"
+#include "../include/position.hpp"
+#include "../include/types.hpp"
 
 #include <stddef.h>
 

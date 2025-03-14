@@ -1,5 +1,5 @@
-#include "parse.hpp"
-#include "types.hpp"
+#include "../include/parse.hpp"
+#include "../include/types.hpp"
 
 int parse_file(char c) {
 	switch (c) {
@@ -73,7 +73,7 @@ int parse_square(const char *string) {
 			return SQUARE(file, rank);
 		}
 	}
-	
+
 	return NO_SQUARE;
 }
 

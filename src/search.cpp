@@ -1,8 +1,8 @@
-#include "search.hpp"
-#include "evaluate.hpp"
-#include "generate.hpp"
-#include "Zobrist.hpp"
-#include "logger.hpp"
+#include "../include/search.hpp"
+#include "../include/evaluate.hpp"
+#include "../include/generate.hpp"
+#include "../include/Zobrist.hpp"
+#include "../include/logger.hpp"
 
 
 #include <limits.h>

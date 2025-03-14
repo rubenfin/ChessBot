@@ -4,13 +4,20 @@ CFLAGS	:= -Wall -Wextra -pedantic -std=c++11
 
 CC		:= c++
 
-HEADERS := include/uci.hpp include/perft.hpp include/search.hpp include/evaluate.hpp include/generate.hpp include/move.hpp include/position.hpp include/parse.hpp include/types.hpp include/logger.hpp include/Zobrist.hpp
+SRC_DIR		:= src
+SRCS		:= $(shell find $(SRC_DIR) -iname "*.cpp")
 
-build/%.o: src/%.cpp $(HEADERS) Makefile
-	mkdir -p $(@D)
-	$(CC) $(CFLAGS) $< -o $@ -c -Iinclude
+OBJ_DIR		:= build
+OBJS		:= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-$(NAME): build/uci.o build/perft.o build/search.o build/evaluate.o build/generate.o build/move.o build/position.o build/parse.o build/main.o build/logger.o build/Zobrist.o
+
+HEADERS := include/uci.hpp include/perft.hpp include/search.hpp include/evaluate.hpp include/generate.hpp include/move.hpp include/position.hpp include/parse.hpp include/types.hpp include/logger.hpp include/Zobrist.hpp include/OpeningsBook.hpp
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -Iinclude -c $< -o $@
+
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $@
 
 clean:

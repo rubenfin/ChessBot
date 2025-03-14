@@ -1,8 +1,8 @@
-#include "perft.hpp"
-#include "uci.hpp"
-#include "logger.hpp"
-#include "BoardHistory.cpp"
-#include "Zobrist.hpp"
+#include "../include/perft.hpp"
+#include "../include/uci.hpp"
+#include "../include/logger.hpp"
+#include "../include/BoardHistory.hpp"
+#include "../include/Zobrist.hpp"
 
 #include <stdlib.h>
 
