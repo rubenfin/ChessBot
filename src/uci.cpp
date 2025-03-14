@@ -150,7 +150,7 @@ void uci_run(const char *name, const char *author) {
 	char *line;
 	int quit = 0;
 	struct position pos;
-	OpeningBook OpeningBook("openingbooks/opening.txt");
+	OpeningBook OpeningBook("openingbooks/unique_moves.txt");
 
 	while (!quit && (line = get_line(stdin))) {
 		char *token = line;
