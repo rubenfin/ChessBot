@@ -21,7 +21,6 @@ int getSquarePostitionValue(const struct position *pos, int square, int phase)
 {
 	int piece = pos->board[square];
 	int color = COLOR(piece);
-	int sign = 1;
 	// printf("COLOR: %d\n", color);
 	int type = TYPE(piece);
 	int mid_value = 0;
@@ -29,33 +28,32 @@ int getSquarePostitionValue(const struct position *pos, int square, int phase)
 	if (color == BLACK)
 	{
 		square = square ^ 56;
-		sign = 1;
 	}
 		switch (type)
 		{
 		case PAWN:
-			mid_value = midgame_pawn[square] * sign;
-			end_value = endgame_pawn[square] * sign;
+			mid_value = midgame_pawn[square];
+			end_value = endgame_pawn[square];
 			break;
 		case KNIGHT:
-			mid_value = midgame_knight[square] * sign;
-			end_value = endgame_knight[square] * sign;
+			mid_value = midgame_knight[square];
+			end_value = endgame_knight[square];
 			break;
 		case BISHOP:
-			mid_value = midgame_bishop[square] * sign;
-			end_value = endgame_bishop[square] * sign;
+			mid_value = midgame_bishop[square];
+			end_value = endgame_bishop[square];
 			break;
 		case ROOK:
-			mid_value = midgame_rook[square] * sign;
-			end_value = endgame_rook[square] * sign;
+			mid_value = midgame_rook[square];
+			end_value = endgame_rook[square];
 			break;
 		case QUEEN:
-			mid_value = midgame_queen[square] * sign;
-			end_value = endgame_queen[square] * sign;
+			mid_value = midgame_queen[square];
+			end_value = endgame_queen[square];
 			break;
 		case KING:
-			mid_value = midgame_king[square] * sign;
-			end_value = endgame_king[square] * sign;
+			mid_value = midgame_king[square];
+			end_value = endgame_king[square];
 		break;
 	}
 	// std::cout << "Squear -->" << square << std::endl;
