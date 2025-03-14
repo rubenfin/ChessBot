@@ -1,5 +1,5 @@
 NAME	:= chessbot
-CFLAGS	:= -Wall -Wextra -pedantic -std=c++11
+CFLAGS	:= -std=c++11 -O3 -flto
 # CFLAGS := -Wall -Wextra -pedantic -std=c89 -O3 -flto -march=native
 
 CC		:= c++
